@@ -3,7 +3,7 @@
 # from fabric.context_managers import lcd
 
 from __future__ import with_statement
-from fabric.api import local, settings, abort, run, cd, put, lcd
+from fabric.api import local, settings, abort, run, cd, put, lcd, sudo
 from fabric.contrib.console import confirm
 
 workPath = "./tmp/deployment"
@@ -28,10 +28,10 @@ def dist():
 		local("sbt dist")
 
 def stop():
-	run('sudo service freeview-api stop')
+	sudo('service freeview-api stop', pty=False)
 
 def start():
-	run('sudo service freeview-api start')
+	sudo('service freeview-api start', pty=False)
 	
 def copy():
 	run('rm -fr ./tmp')
@@ -41,11 +41,16 @@ def copy():
 	run('mv ' + workPath + '/surferstv-1.0-SNAPSHOT ' + workPath + '/freeview-api')
 
 def deploy():
-	run('sudo rm -fr ' + optPath)	
-	run('sudo mv ' + workPath + '/freeview-api ' + optPath)
-	run('sudo chown -R playframework:nogroup ' + optPath)
+	sudo('rm -fr ' + optPath)	
+	sudo('mv ' + workPath + '/freeview-api ' + optPath)
+	sudo('chown -R playframework:nogroup ' + optPath)
 
 def all():
+	clone()
+	dist()
+	copy()
+	stop()
 	deploy()
 	start()
+	
 
