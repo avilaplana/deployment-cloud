@@ -13,7 +13,7 @@ gitRepo="freview-api"
 gitUser="avilaplana"
 gitTag="git tag release/"
 gitPushTag="git push origin release/"
-distName="surferstv-1.0-SNAPSHOT"
+distName="surferstv-0.2.3"
 
 remoteFolder="~/tmp"
 deployFolder="/opt/freview-api"
@@ -26,26 +26,25 @@ def clone():
 	with lcd(localFolder):
 		local("git clone git@github.com:" + gitUser + "/"+ gitRepo + '.git')    
 
-def tag(tag = "no tag"):
-	if tag !="no tag":
+def tagging(tag = None):
+	if tag:
 		print("Tagging to release/" + tag)
-		with lcd(workPath + '/' + gitRepo):
+		with lcd(localFolder + '/' + gitRepo):
 			local(gitTag + tag)
 			local(gitPushTag +  tag)
 	else:
-		print("No Tagging to " + tag)
+		print("No Tagging")
 	
 
-def set_version_env(tag = "no tag"):
-	if tag !="no tag":
-		with shell_env(FREEAPI_VIEW_VERSION=tag):
-			local("env | grep FREEAPI_VIEW_VERSION")
-
-
-def dist():			
+def dist(tag = None):			
 	with lcd(localFolder + '/' + gitRepo):
-		local("sbt dist")
-
+		if tag:
+			with shell_env(FREEAPI_VIEW_VERSION=tag):
+				local("env | grep FREEAPI_VIEW_VERSION")
+				local("sbt dist")
+		else:
+			local("sbt dist")
+					
 def stop():
 	sudo('service ' + serviceName + ' stop', pty=False)
 
@@ -64,13 +63,11 @@ def deploy():
 	sudo('mv ' + remoteFolder + '/freeview-api ' + deployFolder)
 	sudo('chown -R playframework:nogroup ' + deployFolder)
 
-def deploy_cloud(tag="no tag"):
+def deploy_cloud(tag= None):
 	clone()
-	set_version_env(tag)
-	dist()
-	# clone()
-	# dist()
-	# copy()
-	# stop()
-	# deploy()
-	# start()
+	tagging(tag)
+	dist(tag)
+	copy()
+	stop()
+	deploy()
+	start()
