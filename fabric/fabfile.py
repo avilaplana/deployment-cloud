@@ -9,14 +9,15 @@ from fabric.context_managers import shell_env
 
 
 localFolder="~/tmp"
-gitRepo="freview-api"
+gitRepo="freveiew-api"
 gitUser="avilaplana"
 gitTag="git tag release/"
 gitPushTag="git push origin release/"
-distName="surferstv-0.2.3"
+distName="surferstv-"
+version="999-SNAPSHOT"
 
 remoteFolder="~/tmp"
-deployFolder="/opt/freview-api"
+deployFolder="/opt/freeview-api"
 serviceName="freeview-api"
 
 
@@ -51,12 +52,17 @@ def stop():
 def start():
 	sudo('service ' + serviceName + ' start', pty=False)
 	
-def copy():
+def copy(tag = None):
+	if tag:
+		version_to_use = tag
+	else:
+		version_to_use = version
+
 	run('rm -fr ' + remoteFolder)
 	run('mkdir -p ' + remoteFolder)
-	put(localFolder + '/' + gitRepo + '/target/universal/' + distName + '.zip', remoteFolder) 
-	run('unzip '+ remoteFolder + '/' + distName + '.zip' +  ' -d ' + remoteFolder)		
-	run('mv ' + remoteFolder + '/' + distName + ' ' + remoteFolder + '/freeview-api')
+	put(localFolder + '/' + gitRepo + '/target/universal/' + distName + version_to_use + '.zip', remoteFolder) 
+	run('unzip '+ remoteFolder + '/' + distName + version_to_use + '.zip' +  ' -d ' + remoteFolder)		
+	run('mv ' + remoteFolder + '/' + distName + version_to_use +  ' ' + remoteFolder + '/freeview-api')
 
 def deploy():
 	sudo('rm -fr ' + deployFolder)	
@@ -67,7 +73,7 @@ def deploy_cloud(tag= None):
 	clone()
 	tagging(tag)
 	dist(tag)
-	copy()
+	copy(tag)
 	stop()
 	deploy()
 	start()
