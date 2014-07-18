@@ -9,7 +9,7 @@ from fabric.context_managers import shell_env
 
 
 localFolder="~/tmp"
-gitRepo="freveiew-api"
+gitRepo="freeview-api"
 gitUser="avilaplana"
 gitTag="git tag release/"
 gitPushTag="git push origin release/"
