@@ -6,20 +6,14 @@ from __future__ import with_statement
 from fabric.api import local, settings, abort, run, cd, put, lcd, sudo
 from fabric.contrib.console import confirm
 from fabric.context_managers import shell_env
+import json
 
 
-localFolder="~/tmp"
-gitRepo="freeview-api"
-gitUser="avilaplana"
-gitTag="git tag release/"
-gitPushTag="git push origin release/"
-distName="surferstv-"
-version="999-SNAPSHOT"
-
-remoteFolder="~/tmp"
-deployFolder="/opt/freeview-api"
-serviceName="freeview-api"
-
+def load_configuration(conf_file):
+	with open(conf_file) as json_file:
+	    json_data = json.load(json_file)
+	    print json_data
+    	return json_data
 
 def clone():
 	local("rm -fr " + localFolder)
@@ -77,3 +71,16 @@ def deploy_cloud(tag= None):
 	stop()
 	deploy()
 	start()
+
+configuration = load_configuration("config.json")["production"]
+localFolder=configuration["localFolder"]
+gitRepo=configuration["gitRepo"]
+gitUser=configuration["gitUser"]
+gitTag=configuration["gitTag"]
+gitPushTag=configuration["gitPushTag"]
+distName=configuration["distName"]
+version=configuration["version"]
+
+remoteFolder=configuration["remoteFolder"]
+deployFolder=configuration["deployFolder"]
+serviceName=configuration["serviceName"]
