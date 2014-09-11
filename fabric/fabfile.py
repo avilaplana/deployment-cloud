@@ -63,6 +63,9 @@ def deploy_cloud(tag= None):
 	deploy()
 	start()
 
+env.user = os.environ['user']
+env.hosts = [os.environ['server_cloud']]
+
 localFolder = os.environ['localFolder']
 gitRepo = os.environ['gitRepo']
 gitUser = os.environ['gitUser']
