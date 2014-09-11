@@ -1,19 +1,10 @@
-# from fabric.api import local, env
-# from fabric.operations import run, put
-# from fabric.context_managers import lcd
-
 from __future__ import with_statement
-from fabric.api import local, settings, abort, run, cd, put, lcd, sudo
+from fabric.api import local, settings, abort, run, cd, put, lcd, sudo, env
 from fabric.contrib.console import confirm
 from fabric.context_managers import shell_env
+import os
 import json
 
-
-def load_configuration(conf_file):
-	with open(conf_file) as json_file:
-	    json_data = json.load(json_file)
-	    print json_data
-    	return json_data
 
 def clone():
 	local("rm -fr " + localFolder)
@@ -72,15 +63,14 @@ def deploy_cloud(tag= None):
 	deploy()
 	start()
 
-configuration = load_configuration("config.json")["production"]
-localFolder=configuration["localFolder"]
-gitRepo=configuration["gitRepo"]
-gitUser=configuration["gitUser"]
-gitTag=configuration["gitTag"]
-gitPushTag=configuration["gitPushTag"]
-distName=configuration["distName"]
-version=configuration["version"]
+localFolder = os.environ['localFolder']
+gitRepo = os.environ['gitRepo']
+gitUser = os.environ['gitUser']
+gitTag = os.environ['gitTag']
+gitPushTag = os.environ['gitPushTag']
+distName = os.environ['distName']
+version = os.environ['version']
 
-remoteFolder=configuration["remoteFolder"]
-deployFolder=configuration["deployFolder"]
-serviceName=configuration["serviceName"]
+remoteFolder = os.environ['remoteFolder']
+deployFolder = os.environ['deployFolder']
+serviceName = os.environ['serviceName']
