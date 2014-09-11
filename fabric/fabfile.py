@@ -10,7 +10,7 @@ def clone():
 	local("rm -fr " + localFolder)
 	local("mkdir -p " + localFolder)
 	with lcd(localFolder):
-		local("git clone git@github.com:" + gitUser + "/"+ gitRepo + '.git')    
+		local("git clone https://github.com/" + gitUser + "/"+ gitRepo + '.git')    
 
 def tagging(tag = None):
 	if tag:

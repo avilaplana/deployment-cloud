@@ -1,0 +1,31 @@
+{
+	"production": {
+					"localFolder":"~/tmp",
+					"gitRepo":"freeview-api",
+					"gitUser":"avilaplana",
+					"gitTag":"git tag release/",
+					"gitPushTag":"git push origin release/",
+					"distName":"surferstv-",
+					"version":"999-SNAPSHOT",
+					"remoteFolder":"~/tmp",
+					"deployFolder":"/opt/freeview-api",
+					"serviceName":"freeview-api"
+	}
+}
+
+export localFolder=~/tmp
+export gitRepo=freeview-api
+export gitUser=avilaplana
+export gitTag=git tag release/
+export gitPushTag=git push origin release/
+export distName=surferstv-
+export version=999-SNAPSHOT
+export remoteFolder=~/tmp
+export deployFolder=/opt/freeview-api
+export serviceName=freeview-api
+
+
+
+
+
+
