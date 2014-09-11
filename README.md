@@ -1,6 +1,6 @@
 deployment-cloud
 ================
 
-Fabric script to deploy a play application in a remote server in the cloud.
+Please, to get information about the project, go to http://tvlive.io/ 
 
-TODO Explain steps
+Feel free to drop me an email to alvaro.vilaplana@tvlive.io with new ideas or interesting critics
